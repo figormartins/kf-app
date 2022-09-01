@@ -6,5 +6,9 @@
   "license": "MIT",
   "scripts": {
     "start": "node server.mjs"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.2",
+    "puppeteer": "^10.4.0"
   }
 }
