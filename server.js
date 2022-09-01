@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 require('dotenv').config();
 
 (async () => {
-    const browser = await puppeteer.launch(/*{ headless: false, devtools: true }*/);
+    const browser = await puppeteer.launch({ ignoreDefaultArgs: ['--disable-extensions'], });
     const page = await browser.newPage();
     await page.setViewport({
         width: 1366,
