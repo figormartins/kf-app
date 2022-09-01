@@ -13,6 +13,9 @@ require('dotenv').config();
     await page.goto('https://moonid.net/account/login/?next=/api/account/connect/193/');
 
     /// Login
+    
+    console.log(process.env.KF_USER);
+    console.log(process.env.KF_PWD);
     await page.click("form table tbody #id_username");
     await page.type('input#id_username', process.env.KF_USER);
     await page.click("form table tbody #id_password");
