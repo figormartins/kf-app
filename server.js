@@ -13,9 +13,6 @@ require('dotenv').config();
     await page.goto('https://moonid.net/account/login/?next=/api/account/connect/193/');
 
     /// Login
-    
-    console.log(process.env.KF_USER);
-    console.log(process.env.KF_PWD);
     await page.click("form table tbody #id_username");
     await page.type('input#id_username', process.env.KF_USER);
     await page.click("form table tbody #id_password");
@@ -37,11 +34,7 @@ require('dotenv').config();
             });
             console.log("Buscando...");
             await page.waitForTimeout(1000);
-            //     const timeOutStr = document.querySelector("#counter").innerText;
-            //     const times = timeOutStr.split(':');
-            //     var seconds = (+times[0]) * 60 * 60 + (+times[1]) * 60 + (+times[2]);
-            //     await page.waitForTimeout(seconds);
-
+            await page.waitForFrame
 
             /// Attack zombie
             // 0 - Strength
@@ -59,7 +52,7 @@ require('dotenv').config();
                         const habValue = Number(hab.innerHTML);
                         habArr.push(habValue);
                     }
-                    const lowDexStr = (habArr[2] <= 190) && (habArr[0] <= 205);
+
                     if (habArr.every(x => x <= 203)) {
                         const btnToAttack = zombie.querySelector(".fsbint4 tr .fs_attack form .fsattackbut");
                         btnToAttack.click();
@@ -70,7 +63,7 @@ require('dotenv').config();
             });
 
             if (isZombieAttacked) {
-                console.error(`Achou... ${new Date().toString()}`);
+                console.log(`Achou... ${new Date().toString()}`);
                 break;
             }
         }
