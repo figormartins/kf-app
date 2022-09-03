@@ -60,7 +60,7 @@ require('dotenv').config();
                         habArr.push(habValue);
                     }
                     const lowDexStr = (habArr[2] <= 190) && (habArr[0] <= 205);
-                    if (habArr.every(x => x <= 202)) {
+                    if (habArr.every(x => x <= 203)) {
                         const btnToAttack = zombie.querySelector(".fsbint4 tr .fs_attack form .fsattackbut");
                         btnToAttack.click();
                         return true;
