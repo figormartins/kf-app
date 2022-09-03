@@ -34,8 +34,6 @@ require('dotenv').config();
             });
             console.log("Buscando...");
             await page.waitForTimeout(1000);
-            await page.waitForFrame
-
             /// Attack zombie
             // 0 - Strength
             // 1 - Stamina
