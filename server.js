@@ -9,6 +9,7 @@ require('dotenv').config();
         height: 1650,
         deviceScaleFactor: 1,
     });
+    const allStatus = Number(process.env.KF_ALL_STATUS ?? 201);
     console.log("Iniciando...");
     await page.goto('https://moonid.net/account/login/?next=/api/account/connect/193/');
 
@@ -23,7 +24,7 @@ require('dotenv').config();
 
     while (true) {    
         /// Bf
-        await page.goto("https://int4.knightfight.moonid.net/battleserver/raubzug/")
+        await page.goto("https://int4.knightfight.moonid.net/battleserver/raubzug/");
 
         while (true) {
             /// search click
@@ -50,8 +51,8 @@ require('dotenv').config();
                         const habValue = Number(hab.innerHTML);
                         habArr.push(habValue);
                     }
-
-                    if (habArr.every(x => x <= 203)) {
+                    
+                    if (habArr.every(x => x <= allStatus)) {
                         const btnToAttack = zombie.querySelector(".fsbint4 tr .fs_attack form .fsattackbut");
                         btnToAttack.click();
                         return true;
@@ -67,7 +68,5 @@ require('dotenv').config();
         }
         await page.waitForTimeout((1000 * 60 * 5) + 1000);
     }
-
-    await browser.close();
 })();
 
