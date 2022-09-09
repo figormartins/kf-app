@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const { timeToSeconds } = require('./helpers/date');
 require('dotenv').config();
 
 (async () => {
@@ -22,9 +23,22 @@ require('dotenv').config();
     console.log("Logou...");
     await page.waitForNavigation();
 
-    while (true) {    
-        /// Bf
-        await page.goto("https://int4.knightfight.moonid.net/battleserver/raubzug/");
+    while (true) {
+        while (true) {
+            /// Bf
+            await page.goto("https://int4.knightfight.moonid.net/battleserver/raubzug/");
+            const time = await page.evaluate(() => {
+                const counter = document.querySelector("#counter"); 
+                const time = counter?.innerHTML;
+                return time;
+            });
+
+            if (!time) break;
+
+            const milSeconds = timeToSeconds(time) * 1000;
+            console.log("Waiting... ", time);
+            await page.waitForTimeout(milSeconds + 1000);
+        }
 
         while (true) {
             /// search click
