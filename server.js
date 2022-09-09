@@ -76,7 +76,14 @@ require('dotenv').config();
             }, allStatus);
 
             if (isZombieAttacked) {
-                console.log(`Achou... ${new Date().toString()}`);
+                await page.waitForSelector("div.kf-bi-thin.pos-rel.f-cinz.atk");
+                const win = page.evaluate(() => {
+                    const attacker = document.querySelector("div.kf-bi-thin.pos-rel.f-cinz.atk");
+                    const isWinner = attacker.textContent.includes("Winner");
+                    return isWinner;
+                });
+
+                console.log(`${win ? "Win" : "Achou"}... ${new Date().toString()}`);
                 break;
             }
         }
