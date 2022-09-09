@@ -3,7 +3,9 @@ const { timeToSeconds } = require('./helpers/date');
 require('dotenv').config();
 
 (async () => {
-    const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'], });
+    const browser = await puppeteer.launch({
+        args: ['--no-sandbox', '--disable-setuid-sandbox'], 
+    });
     const page = await browser.newPage();
     await page.setViewport({
         width: 1366,
@@ -42,13 +44,11 @@ require('dotenv').config();
 
         while (true) {
             /// search click
-            await page.evaluate(() => {
-                const inputs = document.querySelectorAll("input[type=image]");
-                const len = inputs.length;
-                inputs[len - 1].click();
-            });
+            await page.waitForSelector("form[name='enemysearch'] > div > input[type=image]");
+            await page.click("form[name='enemysearch'] > div > input[type=image]");
             console.log("Buscando...");
-            await page.waitForTimeout(1000);
+            await page.waitForSelector("form[name='enemysearch'] > div > input[type=image]");
+
             /// Attack zombie
             // 0 - Strength
             // 1 - Stamina
