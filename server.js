@@ -24,6 +24,7 @@ require('dotenv').config();
     await page.click("form table tbody [type='submit']");
     console.log("Logou...");
     await page.waitForNavigation();
+    console.log("Status:", allStatus);
 
     while (true) {
         while (true) {
@@ -43,11 +44,12 @@ require('dotenv').config();
         }
 
         while (true) {
-            /// search click
+            /// Waiting for search click
             await page.waitForSelector("form[name='enemysearch'] > div > input[type=image]");
             await page.click("form[name='enemysearch'] > div > input[type=image]");
             console.log("Buscando...");
             await page.waitForSelector("form[name='enemysearch'] > div > input[type=image]");
+            await page.waitForTimeout(500);
 
             /// Attack zombie
             // 0 - Strength
@@ -76,9 +78,9 @@ require('dotenv').config();
             }, allStatus);
 
             if (isZombieAttacked) {
-                await page.waitForSelector("div.kf-bi-thin.pos-rel.f-cinz.atk");
+                await page.waitForSelector("#page > div > div:nth-child(4) > div > div > div.batrep-grid2 > div.kf-bi-thin.pos-rel.f-cinz.atk");
                 const win = page.evaluate(() => {
-                    const attacker = document.querySelector("div.kf-bi-thin.pos-rel.f-cinz.atk");
+                    const attacker = document.querySelector("#page > div > div:nth-child(4) > div > div > div.batrep-grid2 > div.kf-bi-thin.pos-rel.f-cinz.atk");
                     const isWinner = attacker.textContent.includes("Winner");
                     return isWinner;
                 });
