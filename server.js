@@ -79,13 +79,13 @@ require('dotenv').config();
 
             if (isZombieAttacked) {
                 await page.waitForSelector("#page > div > div:nth-child(4) > div > div > div.batrep-grid2 > div.kf-bi-thin.pos-rel.f-cinz.atk");
-                const win = page.evaluate(() => {
+                const win = await page.evaluate(() => {
                     const attacker = document.querySelector("#page > div > div:nth-child(4) > div > div > div.batrep-grid2 > div.kf-bi-thin.pos-rel.f-cinz.atk");
                     const isWinner = attacker.textContent.includes("Winner");
                     return isWinner;
                 });
 
-                console.log(`${win ? "Win" : "Achou"}... ${new Date().toString()}`);
+                console.log(`${win ? "⚡Win" : "☠️ Def"}... ${new Date().toString()}`);
                 break;
             }
         }
