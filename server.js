@@ -61,14 +61,21 @@ require('dotenv').config();
                 const zombies = document.querySelectorAll("#enemy-list .fsbox");
                 for (const zombie of zombies) {
                     const habArr = [];
+                    const skillArr = [];
                     const status = zombie.querySelectorAll(".fsbint4 tr .fsval .sk4");
+                    const skills = zombie.querySelectorAll(".fsbint .fs_stats .fsbint3 .fsval div");
 
                     for (const hab of status) {
                         const habValue = Number(hab.innerHTML);
                         habArr.push(habValue);
                     }
+
+                    for (const skill of skills) {
+                        const skillValue = Number(skill.innerHTML);
+                        skillArr.push(skillValue);
+                    }
                     
-                    if (habArr.every(x => x <= allStatus)) {
+                    if (habArr.every(x => x <= allStatus) && skillArr[0] === 174 && skillArr[1] === 186) {
                         const btnToAttack = zombie.querySelector(".fsbint4 tr .fs_attack form .fsattackbut");
                         btnToAttack.click();
                         return true;
@@ -85,7 +92,7 @@ require('dotenv').config();
                     return isWinner;
                 });
 
-                console.log(`${win ? "⚡Win" : "☠️ Def"}... ${new Date().toString()}`);
+                console.log(`${win ? "⚡Win" : "☠️Def"}... ${new Date().toString()}`);
                 break;
             }
         }
