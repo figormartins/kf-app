@@ -75,7 +75,7 @@ require('dotenv').config();
                         skillArr.push(skillValue);
                     }
                     
-                    if (habArr.every(x => x <= allStatus) && skillArr[0] === 174 && skillArr[1] === 186) {
+                    if (habArr.every(x => x <= allStatus)) {
                         const btnToAttack = zombie.querySelector(".fsbint4 tr .fs_attack form .fsattackbut");
                         btnToAttack.click();
                         return true;
