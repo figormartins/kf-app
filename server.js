@@ -75,6 +75,7 @@ require('dotenv').config();
                         skillArr.push(skillValue);
                     }
                     
+                    habArr.shift();
                     if (habArr.every(x => x <= allStatus)) {
                         const btnToAttack = zombie.querySelector(".fsbint4 tr .fs_attack form .fsattackbut");
                         btnToAttack.click();
