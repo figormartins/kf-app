@@ -74,9 +74,8 @@ require('dotenv').config();
                         const skillValue = Number(skill.innerHTML);
                         skillArr.push(skillValue);
                     }
-                    
 
-                    if (habArr[3] <= 240 && habArr[4] <= 255) {
+                    if (habArr[3] < 215 || habArr[4] < 215) {
                         const btnToAttack = zombie.querySelector(".fsbint4 tr .fs_attack form .fsattackbut");
                         btnToAttack.click();
                         return true;
