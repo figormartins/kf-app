@@ -62,8 +62,10 @@ require('dotenv').config();
                 for (const zombie of zombies) {
                     const habArr = [];
                     const skillArr = [];
+                    const profileArr = [];
                     const status = zombie.querySelectorAll(".fsbint4 tr .fsval .sk4");
                     const skills = zombie.querySelectorAll(".fsbint .fs_stats .fsbint3 .fsval div");
+                    const profiles = zombie.querySelectorAll(".fsbint .fs_stats .fsbint2 .fsval div");
 
                     for (const hab of status) {
                         const habValue = Number(hab.innerHTML);
@@ -74,8 +76,13 @@ require('dotenv').config();
                         const skillValue = Number(skill.innerHTML);
                         skillArr.push(skillValue);
                     }
-
-                    if (habArr[3] < 215 || habArr[4] < 215) {
+                    
+                    for (const profile of profiles) {
+                        const profileValue = Number(profile.innerHTML);
+                        profileArr.push(profileValue);
+                    }
+                        
+                    if (profileArr[0] <= 111 && habArr[3] < 255 && habArr[4] < 230) {
                         const btnToAttack = zombie.querySelector(".fsbint4 tr .fs_attack form .fsattackbut");
                         btnToAttack.click();
                         return true;
