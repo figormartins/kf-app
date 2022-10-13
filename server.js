@@ -27,83 +27,86 @@ require('dotenv').config();
     console.log("Status:", allStatus);
 
     while (true) {
-        while (true) {
-            /// Bf
-            await page.goto("https://int4.knightfight.moonid.net/battleserver/raubzug/");
-            const time = await page.evaluate(() => {
-                const counter = document.querySelector("#counter"); 
-                const time = counter?.innerHTML;
-                return time;
-            });
-
-            if (!time) break;
-
-            const milSeconds = timeToSeconds(time) * 1000;
-            console.log("Waiting... ", time);
-            await page.waitForTimeout(milSeconds + 1000);
-        }
-
-        while (true) {
-            /// Waiting for search click
-            await page.waitForSelector("form[name='enemysearch'] > div > input[type=image]");
-            await page.click("form[name='enemysearch'] > div > input[type=image]");
-            console.log("Buscando...");
-            await page.waitForSelector("form[name='enemysearch'] > div > input[type=image]");
-            await page.waitForTimeout(500);
-
-            /// Attack zombie
-            // 0 - Strength
-            // 1 - Stamina
-            // 2 - Dexterity
-            // 3 - Fighting ability
-            // 4 - Parry
-            const isZombieAttacked = await page.evaluate((allStatus) => {
-                const zombies = document.querySelectorAll("#enemy-list .fsbox");
-                for (const zombie of zombies) {
-                    const habArr = [];
-                    const skillArr = [];
-                    const profileArr = [];
-                    const status = zombie.querySelectorAll(".fsbint4 tr .fsval .sk4");
-                    const skills = zombie.querySelectorAll(".fsbint .fs_stats .fsbint3 .fsval div");
-                    const profiles = zombie.querySelectorAll(".fsbint .fs_stats .fsbint2 .fsval div");
-
-                    for (const hab of status) {
-                        const habValue = Number(hab.innerHTML);
-                        habArr.push(habValue);
-                    }
-
-                    for (const skill of skills) {
-                        const skillValue = Number(skill.innerHTML);
-                        skillArr.push(skillValue);
-                    }
-                    
-                    for (const profile of profiles) {
-                        const profileValue = Number(profile.innerHTML);
-                        profileArr.push(profileValue);
-                    }
-                        
-                    if (profileArr[0] <= 111 && habArr[3] < 255 && habArr[4] < 230) {
-                        const btnToAttack = zombie.querySelector(".fsbint4 tr .fs_attack form .fsattackbut");
-                        btnToAttack.click();
-                        return true;
-                    }
-                }
-                return false;
-            }, allStatus);
-
-            if (isZombieAttacked) {
-                await page.waitForSelector("#page > div > div:nth-child(4) > div > div > div.batrep-grid2 > div.kf-bi-thin.pos-rel.f-cinz.atk");
-                const win = await page.evaluate(() => {
-                    const attacker = document.querySelector("#page > div > div:nth-child(4) > div > div > div.batrep-grid2 > div.kf-bi-thin.pos-rel.f-cinz.atk");
-                    const isWinner = attacker.textContent.includes("Winner");
-                    return isWinner;
+        try {
+            while (true) {
+                /// Bf
+                await page.goto("https://int4.knightfight.moonid.net/battleserver/raubzug/");
+                const time = await page.evaluate(() => {
+                    const counter = document.querySelector("#counter"); 
+                    const time = counter?.innerHTML;
+                    return time;
                 });
-
-                console.log(`${win ? "⚡Win" : "☠️Def"}... ${new Date().toString()}`);
-                break;
+    
+                if (!time) break;
+    
+                const milSeconds = timeToSeconds(time) * 1000;
+                console.log("Waiting... ", time);
+                await page.waitForTimeout(milSeconds + 1000);
             }
+    
+            while (true) {
+                /// Waiting for search click
+                await page.waitForSelector("form[name='enemysearch'] > div > input[type=image]");
+                await page.click("form[name='enemysearch'] > div > input[type=image]");
+                console.log("Buscando...");
+                await page.waitForSelector("form[name='enemysearch'] > div > input[type=image]");
+                await page.waitForTimeout(500);
+    
+                /// Attack zombie
+                // 0 - Strength
+                // 1 - Stamina
+                // 2 - Dexterity
+                // 3 - Fighting ability
+                // 4 - Parry
+                const isZombieAttacked = await page.evaluate((allStatus) => {
+                    const zombies = document.querySelectorAll("#enemy-list .fsbox");
+                    for (const zombie of zombies) {
+                        const habArr = [];
+                        const skillArr = [];
+                        const profileArr = [];
+                        const status = zombie.querySelectorAll(".fsbint4 tr .fsval .sk4");
+                        const skills = zombie.querySelectorAll(".fsbint .fs_stats .fsbint3 .fsval div");
+                        const profiles = zombie.querySelectorAll(".fsbint .fs_stats .fsbint2 .fsval div");
+    
+                        for (const hab of status) {
+                            const habValue = Number(hab.innerHTML);
+                            habArr.push(habValue);
+                        }
+    
+                        for (const skill of skills) {
+                            const skillValue = Number(skill.innerHTML);
+                            skillArr.push(skillValue);
+                        }
+                        
+                        for (const profile of profiles) {
+                            const profileValue = Number(profile.innerHTML);
+                            profileArr.push(profileValue);
+                        }
+                            
+                        if (profileArr[0] <= 111 && habArr[3] < 255 && habArr[4] < 226) {
+                            const btnToAttack = zombie.querySelector(".fsbint4 tr .fs_attack form .fsattackbut");
+                            btnToAttack.click();
+                            return true;
+                        }
+                    }
+                    return false;
+                }, allStatus);
+    
+                if (isZombieAttacked) {
+                    await page.waitForSelector("#page > div > div:nth-child(4) > div > div > div.batrep-grid2 > div.kf-bi-thin.pos-rel.f-cinz.atk");
+                    const win = await page.evaluate(() => {
+                        const attacker = document.querySelector("#page > div > div:nth-child(4) > div > div > div.batrep-grid2 > div.kf-bi-thin.pos-rel.f-cinz.atk");
+                        const isWinner = attacker.textContent.includes("Winner");
+                        return isWinner;
+                    });
+    
+                    console.log(`${win ? "⚡Win" : "☠️Def"}... ${new Date().toString()}`);
+                    break;
+                }
+            }
+            await page.waitForTimeout((1000 * 60 * 5) + 1000);
+        } catch (error) {
+            console.log("Error:", error.message);
         }
-        await page.waitForTimeout((1000 * 60 * 5) + 1000);
     }
 })();
-
