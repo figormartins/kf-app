@@ -40,15 +40,16 @@ require('dotenv').config();
                 if (!time) break;
     
                 const milSeconds = timeToSeconds(time) * 1000;
-                console.log("Waiting... ", time);
+                console.log("Waiting:", time, "|", new Date().toString());
                 await page.waitForTimeout(milSeconds + 1000);
             }
-    
+
+            let qtdS = 0;
             while (true) {
                 /// Waiting for search click
                 await page.waitForSelector("form[name='enemysearch'] > div > input[type=image]");
                 await page.click("form[name='enemysearch'] > div > input[type=image]");
-                console.log("Buscando...");
+                console.log(++qtdS, "Buscando...");
                 await page.waitForSelector("form[name='enemysearch'] > div > input[type=image]");
                 await page.waitForTimeout(500);
     
@@ -83,7 +84,7 @@ require('dotenv').config();
                             profileArr.push(profileValue);
                         }
                             
-                        if (profileArr[0] <= 111 && habArr[3] < 255 && habArr[4] < 226) {
+                        if (habArr[3] <= 210 && habArr[4] <= 255) {
                             const btnToAttack = zombie.querySelector(".fsbint4 tr .fs_attack form .fsattackbut");
                             btnToAttack.click();
                             return true;
@@ -104,7 +105,7 @@ require('dotenv').config();
                     break;
                 }
             }
-            await page.waitForTimeout((1000 * 60 * 5) + 1000);
+            await page.waitForTimeout(1000 * 60 * 5);
         } catch (error) {
             console.log("Error:", error.message);
         }
