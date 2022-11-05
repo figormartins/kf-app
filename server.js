@@ -12,7 +12,7 @@ require('dotenv').config();
         height: 1650,
         deviceScaleFactor: 1,
     });
-    const allStatus = Number(process.env.KF_ALL_STATUS ?? 201);
+    const allStatus = Number(process.env.KF_ALL_STATUS ?? 540);
     console.log("Iniciando...");
     await page.goto('https://moonid.net/account/login/?next=/api/account/connect/193/');
 
@@ -84,7 +84,7 @@ require('dotenv').config();
                             profileArr.push(profileValue);
                         }
                             
-                        if (habArr[2] <= 170 && habArr[3] <= 228) {
+                        if (habArr[3] >= allStatus || habArr[4] >= allStatus) {
                             const btnToAttack = zombie.querySelector(".fsbint4 tr .fs_attack form .fsattackbut");
                             btnToAttack.click();
                             return true;
