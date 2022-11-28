@@ -60,7 +60,7 @@ require('dotenv').config();
                 // 2 - Dexterity
                 // 3 - Fighting ability
                 // 4 - Parry
-                const isZombieAttacked = await page.evaluate((allStatus) => {
+                const isZombieAttacked = await page.evaluate((allStatus, maxParrry) => {
                     const zombies = document.querySelectorAll("#enemy-list .fsbox");
                     for (const zombie of zombies) {
                         const habArr = [];
@@ -92,7 +92,7 @@ require('dotenv').config();
                         }
                     }
                     return false;
-                }, allStatus);
+                }, allStatus, maxParrry);
     
                 if (isZombieAttacked) {
                     await page.waitForSelector("#page > div > div:nth-child(4) > div > div > div.batrep-grid2 > div.kf-bi-thin.pos-rel.f-cinz.atk");
