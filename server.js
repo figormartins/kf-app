@@ -47,6 +47,7 @@ require('dotenv').config();
 
             let qtdS = 0;
             while (true) {
+                if (qtdS > 200) throw 'Max searches done!';
                 /// Waiting for search click
                 await page.waitForSelector("form[name='enemysearch'] > div > input[type=image]");
                 await page.click("form[name='enemysearch'] > div > input[type=image]");
