@@ -86,7 +86,7 @@ require('dotenv').config();
                             profileArr.push(profileValue);
                         }
                             
-                        if ((habArr[3] >= allStatus || habArr[4] >= allStatus) && habArr[4] < maxParrry) {
+                        if (habArr[3] <= 225) {
                             const btnToAttack = zombie.querySelector(".fsbint4 tr .fs_attack form .fsattackbut");
                             btnToAttack.click();
                             return true;
