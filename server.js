@@ -54,13 +54,7 @@ require('dotenv').config();
                 console.log(++qtdS, "Buscando...");
                 await page.waitForSelector("form[name='enemysearch'] > div > input[type=image]");
                 await page.waitForTimeout(500);
-    
-                /// Attack zombie
-                // 0 - Strength
-                // 1 - Stamina
-                // 2 - Dexterity
-                // 3 - Fighting ability
-                // 4 - Parry
+
                 const isZombieAttacked = await page.evaluate((allStatus, maxParrry) => {
                     const zombies = document.querySelectorAll("#enemy-list .fsbox");
                     for (const zombie of zombies) {
@@ -70,23 +64,36 @@ require('dotenv').config();
                         const status = zombie.querySelectorAll(".fsbint4 tr .fsval .sk4");
                         const skills = zombie.querySelectorAll(".fsbint .fs_stats .fsbint3 .fsval div");
                         const profiles = zombie.querySelectorAll(".fsbint .fs_stats .fsbint2 .fsval div");
-    
+
+                        /// Attack zombie
+                        // 0 - Strength
+                        // 1 - Stamina
+                        // 2 - Dexterity
+                        // 3 - Fighting ability
+                        // 4 - Parry
                         for (const hab of status) {
                             const habValue = Number(hab.innerHTML);
                             habArr.push(habValue);
                         }
-    
+
+                        /// Attack zombie
+                        // 0 - Armor skill
+                        // 1 - One-handed attack
+                        // 2 - Two-handed attack
                         for (const skill of skills) {
                             const skillValue = Number(skill.innerHTML);
                             skillArr.push(skillValue);
                         }
                         
-                        for (const profile of profiles) {
-                            const profileValue = Number(profile.innerHTML);
-                            profileArr.push(profileValue);
-                        }
-                            
-                        if ((habArr[3] >= allStatus || habArr[4] >= allStatus) && habArr[4] < maxParrry) {
+                        /// Attack zombie
+                        // 0 - Level
+                        // 1 - BE
+                        profileArr.push(Number(profiles[0].innerHTML))
+                        profileArr.push(Number(profiles[1].innerHTML.slice(1)))
+                        
+                        // if (skillArr[0] != 9 || skillArr[2] != 354) continue;
+                        // if (habArr[3] >= 290 || habArr[4] >= 290) continue;
+                        if (habArr[4] <= allStatus) {
                             const btnToAttack = zombie.querySelector(".fsbint4 tr .fs_attack form .fsattackbut");
                             btnToAttack.click();
                             return true;
