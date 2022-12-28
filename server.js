@@ -53,7 +53,7 @@ require('dotenv').config();
                 await page.click("form[name='enemysearch'] > div > input[type=image]");
                 console.log(++qtdS, "Buscando...");
                 await page.waitForSelector("form[name='enemysearch'] > div > input[type=image]");
-                await page.waitForTimeout(500);
+                await page.waitForTimeout(400);
 
                 const isZombieAttacked = await page.evaluate((allStatus, maxParrry) => {
                     const zombies = document.querySelectorAll("#enemy-list .fsbox");
@@ -93,7 +93,7 @@ require('dotenv').config();
                         
                         // if (skillArr[0] != 9 || skillArr[2] != 354) continue;
                         // if (habArr[3] >= 290 || habArr[4] >= 290) continue;
-                        if (habArr[3] <= allStatus) {
+                        if (habArr[3] >= allStatus || habArr[4] >= allStatus) {
                             const btnToAttack = zombie.querySelector(".fsbint4 tr .fs_attack form .fsattackbut");
                             btnToAttack.click();
                             return true;
