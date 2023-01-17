@@ -93,7 +93,7 @@ require('dotenv').config();
                         
                         // if (skillArr[0] != 9 || skillArr[2] != 354) continue;
                         // if (habArr[3] >= 290 || habArr[4] >= 290) continue;
-                        if (habArr[3] <= allStatus) {
+                        if (habArr[3] >= allStatus || habArr[4] >= allStatus) {
                             const btnToAttack = zombie.querySelector(".fsbint4 tr .fs_attack form .fsattackbut");
                             btnToAttack.click();
                             return true;
