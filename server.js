@@ -12,8 +12,10 @@ require('dotenv').config();
         height: 1650,
         deviceScaleFactor: 1,
     });
-    const allStatus = Number(process.env.KF_ALL_STATUS ?? 540);
+    let allStatus = Number(process.env.KF_ALL_STATUS ?? 540);
     const maxParrry = Number(process.env.KF_MAX_PARRY ?? 788);
+    const minEfficiency = Number(process.env.KF_MIN_EFF ?? 20);
+    const maxEfficiency = Number(process.env.KF_MAX_EFF ?? 34.5);
     console.log("Iniciando...");
     await page.goto('https://moonid.net/account/login/?next=/api/account/connect/193/');
 
@@ -45,14 +47,47 @@ require('dotenv').config();
                 await page.waitForTimeout(milSeconds + 1000);
             }
 
+            // const [minEf, maxEf] = await page.evaluate((minEfficiency, maxEfficiency) => {
+            //     const minEf = document.querySelector("#fpfrom").value;
+            //     const maxEf = document.querySelector("#fpto").value;
+
+            //     if (minEf >= minEfficiency && minEf <= maxEfficiency) {
+                    
+            //     }
+
+            //     return [minEf, maxEf];
+            // }, minEfficiency, maxEfficiency);
+
+            // console.log("Efficiency: ", minEf, maxEf);
+
             let qtdS = 0;
             while (true) {
-                if (qtdS > 200) throw 'Max searches done!';
+                if (qtdS > 250) {
+                    // await page.waitForSelector("form[name='enemysearch'] > div > input[type=image]");
+                    // await page.evaluate((KF_MIN_EFF, KF_MAX_EFF) => {
+                    //     let minEf = document.querySelector("#fpfrom").value;
+                    //     let maxEf = document.querySelector("#fpto").value;
+                    //     document.querySelector("#fpfrom").value = minEf + 0.5;
+                    //     document.querySelector("#fpto").value = maxEf + 0.5;
+                        
+                    //     if (minEf > KF_MAX_EFF) {
+                    //         document.querySelector("#fpfrom").value = KF_MIN_EFF;
+                    //         document.querySelector("#fpto").value = KF_MIN_EFF;
+                    //     }
+                        
+                    //     if (minEf >= 25) {
+                    //         allStatus = 600;
+                    //     }
+                    // }, process.env.KF_MIN_EFF, process.env.KF_MAX_EFF);
+                    // await page.click("form[name='enemysearch'] > div > input[type=image]");
+
+                    throw 'Max searches done!';
+                }
                 /// Waiting for search click
                 await page.waitForSelector("form[name='enemysearch'] > div > input[type=image]");
                 await page.click("form[name='enemysearch'] > div > input[type=image]");
                 console.log(++qtdS, "Buscando...");
-                await page.waitForSelector("form[name='enemysearch'] > div > input[type=image]");
+                await page.waitForSelector("form[name='enemysearch'] > div > input[type=image]", { timeout: 10000 });
                 await page.waitForTimeout(400);
 
                 const isZombieAttacked = await page.evaluate((allStatus, maxParrry) => {
